@@ -17,12 +17,9 @@ const onKnown = (s, res) => (
 )
 
 const onNoText = res => {
-  res.statusCode = 400
   return res.json({
-    errors: [{
-      code: 1,
-      message: 'You must send an acronym'
-    }]
+    response_type: 'ephemeral',
+    text: `Something went wrong trying to understand that :(`
   })
 }
 
@@ -47,7 +44,7 @@ module.exports = (port, lookup, slackVerificationToken) => {
 
   app.post('/wat', (req, res) => {
     if (!req.body || !req.body.text) {
-      logger.error(`there was no text in ${req.body}`)
+      logger.error(`there was no text in ${JSON.stringify(req.body)}`)
       return onNoText(res)
     }
 
@@ -59,6 +56,7 @@ module.exports = (port, lookup, slackVerificationToken) => {
       return onWrongToken(res)
     }
 
+    logger.info(`wat lookup for ${req.body.text}`)
     lookup.acronym(
       req.body.text,
       s => onKnown(s, res),
