@@ -3,7 +3,7 @@ const appFactory = require('./app-factory')
 const lookup = require('./lookup')
 lookup.set(require('./config.json'))
 
-const port = process.env.SERVER_PORT || 3000
+const port = process.env.PORT || 3000
 
 const token = process.env.SLACK_TOKEN
 if (!token) {
