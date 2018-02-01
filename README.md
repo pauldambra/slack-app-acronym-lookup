@@ -6,11 +6,12 @@
  * give people decent output
  * how to pass secrets and env variables to docker
  
-# build docker image
+# to run in heroku
 
-`docker build \
-   -t image_name .`
-
-then run with 
-
-`docker run -p 80:1337 image_name`
+ * `cd` into root of repo
+ * `heroku auth:login`
+ * `heroku create`
+ * `git push heroku master`
+ * `heroku ps:scale web=1`
+ * `heroku config:set SLACK_TOKEN:the_token`
+ * update the URL in the slack app settings
