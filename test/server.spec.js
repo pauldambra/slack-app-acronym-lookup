@@ -81,4 +81,13 @@ describe('the server', function () {
       .expect('Content-Type', /json/)
       .expect(400, done)
   })
+
+  it('can give help', function (done) {
+    request(app)
+      .post('/wat')
+      .send('text=help')
+      .send('token=test')
+      .expect('Content-Type', /json/)
+      .expect(200, done)
+  })
 })
