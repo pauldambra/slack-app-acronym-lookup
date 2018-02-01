@@ -3,6 +3,10 @@
     "name": "IBM Information Bus"
   },
   "mdm": {
-    "name": "Master Data Mart"
+    "name": "Master Data Mart",
+    "description": [
+      "This is effectively the source of truth for member data.",
+      " The best/only unique ID we have for a member is their MDM ID"
+    ]
   }
 }

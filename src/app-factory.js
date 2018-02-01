@@ -1,20 +1,14 @@
 const express = require('express')
 const logger = require('heroku-logger')
+const responseMapper = require('./response-mapper')
 
 const onUnknown = (s, res) => {
   logger.info(`${s}: is unknown`)
-  res.json({
+  return res.json({
     response_type: 'ephemeral',
     text: `I don't know what ${s} means :(`
   })
 }
-
-const onKnown = (s, res) => (
-  res.json({
-    response_type: 'in_channel',
-    text: s.name
-  })
-)
 
 const onNoText = res => {
   return res.json({
@@ -59,7 +53,7 @@ module.exports = (port, lookup, slackVerificationToken) => {
     logger.info(`wat lookup for ${req.body.text}`)
     lookup.acronym(
       req.body.text,
-      s => onKnown(s, res),
+      s => res.json(responseMapper.mapKnown(s)),
       s => onUnknown(s, res)
     )
   })

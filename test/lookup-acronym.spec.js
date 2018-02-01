@@ -14,6 +14,26 @@ describe('looking up acronyms', function () {
     done()
   })
 
+  it('can have descriptions', function (done) {
+    lookup.set({
+      iib: {
+        name: 'IBM information bus',
+        description: [
+          'one line of text',
+          'and another'
+        ]
+      }
+    })
+    lookup.acronym(
+      'iib',
+      s => expect(s.description).to.deep.equal([
+        'one line of text',
+        'and another'
+      ]),
+      done)
+    done()
+  })
+
   it('can handle acronyms with spaces', function (done) {
     lookup.set({
       'iib iib': {name: 'something'}
