@@ -4,7 +4,8 @@
   "description": "describes acronyms for slack",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/standard && ./node_modules/.bin/mocha"
+    "test": "./node_modules/.bin/standard && ./node_modules/.bin/mocha",
+    "start": "node ./src/server.js"
   },
   "author": "Paul D'Ambra",
   "license": "UNLICENSED",
