@@ -40,7 +40,7 @@ const onWrongToken = res => {
 
 module.exports = (port, lookup, slackVerificationToken) => {
   const app = express()
-  app.use(express.json({ type: 'application/json' }))
+  app.use(express.urlencoded({ extended: true }))
 
   app.post('/wat', (req, res) => {
     if (!req.body || !req.body.text) {

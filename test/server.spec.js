@@ -18,7 +18,8 @@ describe('the server', function () {
   it('can respond to a lookup for iib', function (done) {
     request(app)
       .post('/wat')
-      .send({ text: 'iib', token: 'test' })
+      .send('text=iib')
+      .send('token=test')
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function (err, res) {
@@ -37,7 +38,8 @@ describe('the server', function () {
   it('can respond to a lookup for mdm', function (done) {
     request(app)
       .post('/wat')
-      .send({ text: 'mdm', token: 'test' })
+      .send('text=mdm')
+      .send('token=test')
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function (err, res) {
@@ -56,15 +58,26 @@ describe('the server', function () {
   it('can error if you do not send text', function (done) {
     request(app)
       .post('/wat')
-      .send({token: 'test'})
+      .send('token=test')
       .expect('Content-Type', /json/)
-      .expect(400, done)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) {
+          done(err)
+        }
+        expect(res.body).to.eql(
+          {
+            'response_type': 'ephemeral',
+            'text': `Something went wrong trying to understand that :(`
+          })
+        done()
+      })
   })
 
   it('can error if you do not send a token', function (done) {
     request(app)
       .post('/wat')
-      .send({text: 'present'})
+      .send('text=present')
       .expect('Content-Type', /json/)
       .expect(400, done)
   })

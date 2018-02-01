@@ -16,7 +16,8 @@ describe('the server', function () {
   it('can respond with an error when tokens do not match', function (done) {
     request(app)
       .post('/wat')
-      .send({ text: 'iib', token: 'not the token' })
+      .send('text=iib')
+      .send('token=not the token')
       .expect(401, done)
   })
 })
