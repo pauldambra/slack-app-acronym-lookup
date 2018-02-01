@@ -12,7 +12,7 @@ const onUnknown = (s, res) => {
 const onKnown = (s, res) => (
   res.json({
     response_type: 'in_channel',
-    text: s
+    text: s.name
   })
 )
 

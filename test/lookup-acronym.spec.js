@@ -5,22 +5,22 @@ const lookup = require('../src/lookup')
 describe('looking up acronyms', function () {
   it('can find a known one', function (done) {
     lookup.set({
-      iib: 'IBM information bus'
+      iib: {name: 'IBM information bus'}
     })
     lookup.acronym(
       'iib',
-      s => expect(s).to.equal('IBM information bus'),
+      s => expect(s.name).to.equal('IBM information bus'),
       done)
     done()
   })
 
   it('can handle acronyms with spaces', function (done) {
     lookup.set({
-      'iib iib': 'something'
+      'iib iib': {name: 'something'}
     })
     lookup.acronym(
       'iib iib',
-      s => expect(s).to.equal('something'),
+      s => expect(s.name).to.equal('something'),
       done)
     done()
   })

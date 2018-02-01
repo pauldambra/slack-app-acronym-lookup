@@ -1,4 +1,8 @@
 {
-  "iib": "IBM Information Bus",
-  "mdm": "Master Data Mart"
+  "iib": {
+    "name": "IBM Information Bus"
+  },
+  "mdm": {
+    "name": "Master Data Mart"
+  }
 }

@@ -9,8 +9,8 @@ describe('the server', function () {
   beforeEach(function () {
     const lookup = require('../src/lookup')
     lookup.set({
-      iib: 'woah',
-      mdm: 'yass'
+      iib: {name: 'woah'},
+      mdm: {name: 'yass'}
     })
     app = appFactory(1337, lookup, 'test')
   })
