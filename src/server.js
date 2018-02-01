@@ -1,5 +1,5 @@
 const appFactory = require('./app-factory')
-
+const logger = require('heroku-logger')
 const lookup = require('./lookup')
 lookup.set(require('./config.json'))
 
@@ -14,6 +14,6 @@ const app = appFactory(port, lookup, token)
 
 app.listen(
   port,
-  () => console.log(`server started on ${port}`))
+  () => logger.info(`server started on ${port}`))
 
 module.exports = app

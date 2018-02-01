@@ -1,11 +1,13 @@
 const express = require('express')
+const logger = require('heroku-logger')
 
-const onUnknown = (s, res) => (
+const onUnknown = (s, res) => {
+  logger.info(`${s}: is unknown`)
   res.json({
     response_type: 'ephemeral',
     text: `I don't know what ${s} means :(`
   })
-)
+}
 
 const onKnown = (s, res) => (
   res.json({
@@ -45,6 +47,7 @@ module.exports = (port, lookup, slackVerificationToken) => {
 
   app.post('/wat', (req, res) => {
     if (!req.body || !req.body.text) {
+      logger.error(`there was no text in ${req.body}`)
       return onNoText(res)
     }
 
