@@ -2,11 +2,16 @@ const logger = require('heroku-logger')
 const responseMapper = require('./response-mapper')
 
 const onUnknown = (s, res) => {
-  logger.info(`${s}: is unknown`)
+  logger.info(`acronym not found: ${s}`)
   return res.json({
     response_type: 'ephemeral',
     text: `I don't know what ${s} means :(`
   })
+}
+
+const onKnown = (s, res) => {
+  logger.info(`acronym found: ${s}`)
+  return res.json(responseMapper.forKnownAcronym(s))
 }
 
 const onNoText = res => {
@@ -31,11 +36,12 @@ const onWrongToken = res => {
   return res.end()
 }
 
-const ensureBodyIsPresent = (req, res, next) => {
+const ensureAcronymIsInRequest = (req, res, next) => {
   if (!req.body || !req.body.text) {
-    logger.error(`there was no text in ${JSON.stringify(req.body)}`)
+    logger.error(`there was no acronym in request in ${JSON.stringify(req.body)}`)
     return onNoText(res)
   } else {
+    logger.info(`wat lookup received for ${req.body.text}`)
     next()
   }
 }
@@ -68,16 +74,15 @@ const sendHelpIfNeeded = (req, res, next) => {
 
 const lookupAcronymUsing = lookup => {
   return (req, res) => {
-    logger.info(`wat lookup for ${req.body.text}`)
     lookup.acronym(req.body.text)
-      .then(s => res.json(responseMapper.forKnownAcronym(s)))
+      .then(s => onKnown(s, res))
       .catch(s => onUnknown(s, res))
   }
 }
 
 module.exports = {
   register: (app, lookup, slackVerificationToken) => {
-    app.use('/wat', ensureBodyIsPresent)
+    app.use('/wat', ensureAcronymIsInRequest)
     app.use('/wat', ensureTokenIsPresent)
     app.use('/wat', ensureVerificationIsValid(slackVerificationToken))
 
