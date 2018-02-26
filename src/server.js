@@ -1,7 +1,7 @@
 const appFactory = require('./app-factory')
 const logger = require('heroku-logger')
 const lookup = require('./lookup')
-lookup.set(require('./config.json'))
+lookup.set(require('./ubictionary.json'))
 
 const port = process.env.PORT || 3000
 

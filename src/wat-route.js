@@ -31,30 +31,57 @@ const onWrongToken = res => {
   return res.end()
 }
 
+const ensureBodyIsPresent = (req, res, next) => {
+  if (!req.body || !req.body.text) {
+    logger.error(`there was no text in ${JSON.stringify(req.body)}`)
+    return onNoText(res)
+  } else {
+    next()
+  }
+}
+
+const ensureTokenIsPresent = (req, res, next) => {
+  if (!req.body || !req.body.token) {
+    return onNoToken(res)
+  } else {
+    next()
+  }
+}
+
+const ensureVerificationIsValid = slackVerificationToken => {
+  return (req, res, next) => {
+    if (req.body.token !== slackVerificationToken) {
+      return onWrongToken(res)
+    } else {
+      next()
+    }
+  }
+}
+
+const sendHelpIfNeeded = (req, res, next) => {
+  if (req.body.text === 'help') {
+    res.json(responseMapper.forHelp())
+  } else {
+    next()
+  }
+}
+
+const lookupAcronymUsing = lookup => {
+  return (req, res) => {
+    logger.info(`wat lookup for ${req.body.text}`)
+    lookup.acronym(req.body.text)
+      .then(s => res.json(responseMapper.forKnownAcronym(s)))
+      .catch(s => onUnknown(s, res))
+  }
+}
+
 module.exports = {
   register: (app, lookup, slackVerificationToken) => {
-    app.post('/wat', (req, res) => {
-      if (!req.body || !req.body.text) {
-        logger.error(`there was no text in ${JSON.stringify(req.body)}`)
-        return onNoText(res)
-      }
+    app.use('/wat', ensureBodyIsPresent)
+    app.use('/wat', ensureTokenIsPresent)
+    app.use('/wat', ensureVerificationIsValid(slackVerificationToken))
 
-      if (!req.body || !req.body.token) {
-        return onNoToken(res)
-      }
-
-      if (req.body.token !== slackVerificationToken) {
-        return onWrongToken(res)
-      }
-
-      if (req.body.text === 'help') {
-        res.json(responseMapper.forHelp())
-      } else {
-        logger.info(`wat lookup for ${req.body.text}`)
-        lookup.acronym(req.body.text)
-          .then(s => res.json(responseMapper.forKnownAcronym(s)))
-          .catch(s => onUnknown(s, res))
-      }
-    })
+    app.post('/wat', sendHelpIfNeeded)
+    app.post('/wat', lookupAcronymUsing(lookup))
   }
 }

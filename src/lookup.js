@@ -3,7 +3,7 @@ let ubictionary = {}
 
 module.exports = {
   set: u => (ubictionary = u),
-  acronym: (s, whenFound, whenUnknown) => {
+  acronym: (s) => {
     const found = ubictionary[s]
     return new Promise((resolve, reject) => {
       if (found) {
