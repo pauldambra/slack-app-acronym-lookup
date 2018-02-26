@@ -4,8 +4,7 @@
 
  * put it somewhere on tinterwebs
  * give people decent output
- * how to pass secrets and env variables to docker
- 
+
 # to run in heroku
 
  * `cd` into root of repo

@@ -51,11 +51,9 @@ module.exports = {
         res.json(responseMapper.forHelp())
       } else {
         logger.info(`wat lookup for ${req.body.text}`)
-        lookup.acronym(
-          req.body.text,
-          s => res.json(responseMapper.forKnownAcronym(s)),
-          s => onUnknown(s, res)
-        )
+        lookup.acronym(req.body.text)
+          .then(s => res.json(responseMapper.forKnownAcronym(s)))
+          .catch(s => onUnknown(s, res))
       }
     })
   }
