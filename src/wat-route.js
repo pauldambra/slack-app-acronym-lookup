@@ -10,7 +10,7 @@ const onUnknown = (s, res) => {
 }
 
 const onKnown = (s, res) => {
-  logger.info(`acronym found: ${s}`)
+  logger.info(`acronym found: ${JSON.stringify(s)}`)
   return res.json(responseMapper.forKnownAcronym(s))
 }
 
@@ -76,7 +76,7 @@ const lookupAcronymUsing = lookup => {
   return (req, res) => {
     lookup.acronym(req.body.text)
       .then(s => onKnown(s, res))
-      .catch(s => onUnknown(s, res))
+      .catch(err => onUnknown(err.acronym, res))
   }
 }
 

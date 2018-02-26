@@ -74,6 +74,26 @@ describe('the server', function () {
       })
   })
 
+  it('can tell you it does not know an acronym', function (done) {
+    request(app)
+      .post('/wat')
+      .send('text=arbitrary-unknown-string')
+      .send('token=test')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) {
+          done(err)
+        }
+        expect(res.body).to.eql(
+          {
+            'response_type': 'ephemeral',
+            'text': `I don't know what arbitrary-unknown-string means :(`
+          })
+        done()
+      })
+  })
+
   it('can error if you do not send a token', function (done) {
     request(app)
       .post('/wat')

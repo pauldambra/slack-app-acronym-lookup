@@ -1,4 +1,4 @@
-
+const UnknownAcronymLookup = require('./UnknownAcronymLookup.js')
 let ubictionary = {}
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
       if (found) {
         resolve(found)
       } else {
-        reject(new Error(`could not find acronym ${s}`))
+        reject(new UnknownAcronymLookup(s, `could not find acronym ${s}`))
       }
     })
   }
