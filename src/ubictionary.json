@@ -2,11 +2,11 @@
   "fill": {
     "name": "in this information"
   },
-  "with": {
-    "name": "your local",
+  "ubictionary": {
+    "name": "Ubictionary",
     "description": [
-      "acronymns, domain terms, and other unique-to-you stuff",
-      "needs to all be in here so people can look for it"
+      "a portmanteau of 'ubiquitous language' and 'dictionary'",
+      "you can learn more at https://pauldambra.github.io/2017/05/ubictionary.html"
     ]
   }
 }
