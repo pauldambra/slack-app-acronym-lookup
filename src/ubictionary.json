@@ -1,12 +1,12 @@
 {
-  "iib": {
-    "name": "IBM Information Bus"
+  "fill": {
+    "name": "in this information"
   },
-  "mdm": {
-    "name": "Master Data Mart",
+  "with": {
+    "name": "your local",
     "description": [
-      "This is effectively the source of truth for member data.",
-      " The best/only unique ID we have for a member is their MDM ID"
+      "acronymns, domain terms, and other unique-to-you stuff",
+      "needs to all be in here so people can look for it"
     ]
   }
 }

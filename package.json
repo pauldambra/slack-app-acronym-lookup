@@ -8,7 +8,7 @@
     "start": "node ./src/server.js"
   },
   "author": "Paul D'Ambra",
-  "license": "UNLICENSED",
+  "license": "CC-BY-SA",
   "dependencies": {
     "express": "^4.16.2",
     "heroku-logger": "^0.3.0"
